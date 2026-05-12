@@ -239,7 +239,46 @@
             line-height: 1.5;
             color: var(--color-coconut-79);
             max-width: 58ch;
+            margin-bottom: var(--s-40);
+        }
+
+        /* ============================================================
+           DOWNLOAD BUTTON
+           ============================================================ */
+        .download-section {
+            display: flex;
+            justify-content: flex-start;
             margin-bottom: var(--s-72);
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--s-12);
+            padding: 16px 32px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--color-licorice);
+            background: var(--color-matcha);
+            border: 1px solid var(--color-matcha);
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(209, 244, 112, 0.3);
+            background: var(--color-matcha-200);
+        }
+
+        .download-btn svg {
+            width: 18px;
+            height: 18px;
         }
 
         /* ============================================================
@@ -532,6 +571,17 @@
             <h1 class="hero__title">Built for <em>humans</em> and machines.</h1>
             <p class="hero__lede">A single source of truth for the Zendesk visual language — expressed two ways. A visual reference for designers, writers, and stakeholders. A structured token library for AI agents, pipelines, and engineers.</p>
 
+            <div class="download-section">
+                <button class="download-btn" id="downloadBrand">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download brand files
+                </button>
+            </div>
+
             <!-- MOTION PLACEHOLDER
                  To replace with real asset:
                  1. Add a <video autoplay muted loop playsinline> or <img> inside .motion
@@ -586,5 +636,80 @@
             </div>
         </main>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script>
+        const downloadBtn = document.getElementById('downloadBrand');
+
+        // Define all files in the zendesk-brand folder structure
+        const brandFiles = [
+            '.claude/skills/zendesk-brand/SKILL.md',
+            '.claude/skills/zendesk-brand/assets/tokens.css',
+            '.claude/skills/zendesk-brand/assets/tokens.json',
+            '.claude/skills/zendesk-brand/assets/logo-coconut.svg',
+            '.claude/skills/zendesk-brand/assets/logo-licorice.svg',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-mono/ZendeskMono-Black.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-mono/ZendeskMono-Bold.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-mono/ZendeskMono-ExtraLight.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-mono/ZendeskMono-Light.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-mono/ZendeskMono-Medium.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-mono/ZendeskMono-Regular.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-mono/ZendeskMono-SemiBold.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-mono/ZendeskMono-Thin.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-sans/ZendeskSans-Black.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-sans/ZendeskSans-BlackItalic.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-sans/ZendeskSans-Bold.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-sans/ZendeskSans-BoldItalic.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-sans/ZendeskSans-ExtraLight.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-sans/ZendeskSans-ExtraLightItalic.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-sans/ZendeskSans-Italic.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-sans/ZendeskSans-Light.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-sans/ZendeskSans-LightItalic.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-sans/ZendeskSans-Medium.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-sans/ZendeskSans-MediumItalic.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-sans/ZendeskSans-Regular.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-sans/ZendeskSans-SemiBold.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-sans/ZendeskSans-SemiBoldItalic.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-sans/ZendeskSans-Thin.woff2',
+            '.claude/skills/zendesk-brand/assets/fonts/zendesk-sans/ZendeskSans-ThinItalic.woff2',
+            '.claude/skills/zendesk-brand/examples/hero-section.html',
+            '.claude/skills/zendesk-brand/examples/card-component.html',
+            '.claude/skills/zendesk-brand/examples/card-component.jsx',
+            '.claude/skills/zendesk-brand/references/colors.md',
+            '.claude/skills/zendesk-brand/references/typography.md',
+            '.claude/skills/zendesk-brand/references/spacing-and-layout.md',
+            '.claude/skills/zendesk-brand/references/components.md',
+            '.claude/skills/zendesk-brand/references/accessibility.md',
+            '.claude/skills/zendesk-brand/references/voice.md'
+        ];
+
+        downloadBtn.addEventListener('click', async () => {
+            const zip = new JSZip();
+            const folder = zip.folder('zendesk-brand');
+
+            try {
+                for (const filePath of brandFiles) {
+                    const response = await fetch(filePath);
+                    if (response.ok) {
+                        const blob = await response.blob();
+                        const relativePath = filePath.replace('.claude/skills/zendesk-brand/', '');
+                        folder.file(relativePath, blob);
+                    }
+                }
+
+                const content = await zip.generateAsync({ type: 'blob' });
+                const url = window.URL.createObjectURL(content);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'zendesk-brand.zip';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Failed to create zip file:', error);
+            }
+        });
+    </script>
 </body>
 </html>
